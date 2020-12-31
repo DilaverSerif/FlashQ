@@ -14,8 +14,7 @@ public class Control : MonoBehaviour, IDragHandler, IPointerDownHandler, IPointe
     private Vector2 ilkVector, sonVector;
     private Durum suankiDurum = Durum.normal;
 
-    [SerializeField]
-    public GameObject hedefleyici,mermi,Player;
+    public GameObject hedefleyici,mermi,Player,kamera;
 
     public void OnDrag(PointerEventData eventData)
     {
@@ -54,6 +53,7 @@ public class Control : MonoBehaviour, IDragHandler, IPointerDownHandler, IPointe
             sonVector = Player.transform.position;
             hedefleyici.transform.localScale = Vector3.zero;
             suankiDurum = Durum.normal;
+            kamera.GetComponent<Kamera>().Tetikle();
         }
 
     }

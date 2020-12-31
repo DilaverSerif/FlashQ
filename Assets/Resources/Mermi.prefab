@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 3996659076260942355}
   - component: {fileID: 3996659076260942352}
   - component: {fileID: 1928195935871803297}
+  - component: {fileID: 3985532901648002640}
   m_Layer: 0
   m_Name: Mermi
   m_TagString: Untagged
@@ -4776,3 +4777,15 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!114 &3985532901648002640
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3996659076260942353}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 58c4f999de086c34fb5ad4ce84e023c4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
