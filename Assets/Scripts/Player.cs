@@ -4,20 +4,20 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    private int can;
+    private int can,maxCan;
 
-    private void Update()
-    {
-
-    }
 
     public void CanSistemi(int hasar)
     {
-        can -= hasar;
-
-        if (can <= 0)
+        
+        if (can > 100)
         {
-            Debug.Log("ÖLDÜN");
+            can -= hasar;
+            transform.localScale = new Vector3((can - 100) / 100,(can - 100) / 100,(can - 100) / 100);
+        }
+        else
+        {
+            Debug.Log("ÖLÜM");
         }
 
     }
