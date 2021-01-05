@@ -14,7 +14,7 @@ public class Control : MonoBehaviour, IDragHandler, IPointerDownHandler, IPointe
     private Vector2 ilkVector, sonVector;
     private Durum suankiDurum = Durum.normal;
 
-    public GameObject hedefleyici,mermi,Player,kamera;
+    public GameObject hedefleyici, mermi, Player, kamera;
 
     public void OnDrag(PointerEventData eventData)
     {
@@ -30,8 +30,9 @@ public class Control : MonoBehaviour, IDragHandler, IPointerDownHandler, IPointe
         float AngleInDegrees = Angle * Mathf.Rad2Deg;
 
 
-        hedefleyici.transform.rotation = Quaternion.Euler(0, 0, AngleInDegrees -90 );
+        hedefleyici.transform.rotation = Quaternion.Euler(0, 0, AngleInDegrees - 90);
         hedefleyici.transform.localScale = new Vector3(1, mesafe, 1);
+        Player.GetComponent<Player>().Bak(AngleInDegrees);
     }
 
     public void OnPointerDown(PointerEventData eventData)
@@ -43,8 +44,8 @@ public class Control : MonoBehaviour, IDragHandler, IPointerDownHandler, IPointe
     {
         if (suankiDurum != Durum.flash)
         {
-               suankiDurum = Durum.ates;
-               Fire();
+            suankiDurum = Durum.ates;
+            Fire();
         }
         else
         {
@@ -55,7 +56,7 @@ public class Control : MonoBehaviour, IDragHandler, IPointerDownHandler, IPointe
             suankiDurum = Durum.normal;
             kamera.GetComponent<Kamera>().ZamanEfekt(false);
 
-            if(Vector2.Distance(hedefNokta,Player.transform.position) < 0.35f) 
+            if (Vector2.Distance(hedefNokta, Player.transform.position) < 0.35f)
             {
                 return;
             }
@@ -70,13 +71,17 @@ public class Control : MonoBehaviour, IDragHandler, IPointerDownHandler, IPointe
 
     private void Fire()
     {
-        Vector2 fark = ilkVector - new Vector2(Player.transform.position.x,Player.transform.position.y);
+
+        Vector2 fark = ilkVector - new Vector2(Player.transform.position.x, Player.transform.position.y);
 
         float Angle = Mathf.Atan2(fark.y, fark.x);
         float AngleInDegrees = Angle * Mathf.Rad2Deg;
 
-        var yeniMermi = Instantiate(mermi, Player.transform.position, Quaternion.Euler(0, 0, AngleInDegrees-90));
-        yeniMermi.GetComponent<Rigidbody2D>().velocity = yeniMermi.transform.up * 10 ;
+
+        Player.GetComponent<Player>().Bak(AngleInDegrees);
+        var yeniMermi = Instantiate(mermi, Player.transform.position, Quaternion.Euler(0, 0, AngleInDegrees - 90));
+
+        yeniMermi.GetComponent<Rigidbody2D>().velocity = yeniMermi.transform.up * 10;
         suankiDurum = Durum.normal;
     }
 }

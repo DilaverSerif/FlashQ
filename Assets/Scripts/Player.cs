@@ -1,10 +1,17 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
 
 public class Player : MonoBehaviour
 {
     private int can,maxCan;
+
+    public void Bak(float gelen)
+    {
+        DOTween.Kill("donus");
+        transform.DORotate(new Vector3(0,0,90+gelen),0.15f).SetId("donus");
+    }
 
 
     public void CanSistemi(int hasar)
