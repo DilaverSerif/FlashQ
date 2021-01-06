@@ -1,22 +1,7 @@
 fileFormatVersion: 2
-guid: de6ba59851ef7cf4a8a854ee6be42e22
+guid: 3347fd22136840947927ced7626582cd
 TextureImporter:
-  internalIDToNameTable:
-  - first:
-      213: 874343242196921964
-    second: Bullets_0
-  - first:
-      213: -7976837497307082302
-    second: Bullets_1
-  - first:
-      213: -7803065417098437583
-    second: Bullets_2
-  - first:
-      213: 7431529995326980795
-    second: Bullets_3
-  - first:
-      213: -7779215486825634471
-    second: Bullets_4
+  internalIDToNameTable: []
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -46,7 +31,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: -1
+    filterMode: 0
     aniso: -1
     mipBias: -100
     wrapU: 1
@@ -60,7 +45,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 500
+  spritePixelsToUnits: 100
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -114,91 +99,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Bullets_0
-      rect:
-        serializedVersion: 2
-        x: 448
-        y: 560
-        width: 96
-        height: 96
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: c6e29eadb8a422c00800000000000000
-      internalID: 874343242196921964
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Bullets_1
-      rect:
-        serializedVersion: 2
-        x: 624
-        y: 384
-        width: 192
-        height: 256
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 2c1defd2f849c4190800000000000000
-      internalID: -7976837497307082302
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Bullets_2
-      rect:
-        serializedVersion: 2
-        x: 224
-        y: 369
-        width: 112
-        height: 111
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 13c56b67851f5b390800000000000000
-      internalID: -7803065417098437583
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Bullets_3
-      rect:
-        serializedVersion: 2
-        x: 448
-        y: 368
-        width: 112
-        height: 112
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: bb200252829122760800000000000000
-      internalID: 7431529995326980795
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Bullets_4
+      name: Mermiler_0
       rect:
         serializedVersion: 2
         x: 256
@@ -212,8 +113,134 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 9556a841bbcaa0490800000000000000
-      internalID: -7779215486825634471
+      spriteID: 2de3b13966fa82e00800000000000000
+      internalID: 1020258170688978642
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mermiler_1
+      rect:
+        serializedVersion: 2
+        x: 448
+        y: 560
+        width: 96
+        height: 96
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2008aa220eb09b820800000000000000
+      internalID: 2934389689490767874
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mermiler_2
+      rect:
+        serializedVersion: 2
+        x: 624
+        y: 383
+        width: 192
+        height: 257
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ab76e910cb4234e80800000000000000
+      internalID: -8195666506984560710
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mermiler_3
+      rect:
+        serializedVersion: 2
+        x: 224
+        y: 368
+        width: 112
+        height: 112
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6daf01b4fe6a36bc0800000000000000
+      internalID: -3791002914629027114
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mermiler_4
+      rect:
+        serializedVersion: 2
+        x: 448
+        y: 368
+        width: 112
+        height: 112
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 859f77be0a26f4f30800000000000000
+      internalID: 4561973390834399576
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mermiler_7
+      rect:
+        serializedVersion: 2
+        x: 672
+        y: 384
+        width: 16
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6d659a65876a5c5c0800000000000000
+      internalID: -4195764442045524266
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Mermiler_8
+      rect:
+        serializedVersion: 2
+        x: 752
+        y: 384
+        width: 16
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c957b67c5c8f4f220800000000000000
+      internalID: 2518911619944904092
       vertices: []
       indices: 
       edges: []

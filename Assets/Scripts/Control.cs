@@ -79,7 +79,8 @@ public class Control : MonoBehaviour, IDragHandler, IPointerDownHandler, IPointe
 
 
         Player.GetComponent<Player>().Bak(AngleInDegrees);
-        var yeniMermi = Instantiate(mermi, Player.transform.position, Quaternion.Euler(0, 0, AngleInDegrees - 90));
+        var yeniMermi = ObjectPool.MermiKullan(ObjectPool.MermiTuru.normal,3,3,Player.transform.position,AngleInDegrees-90);
+        
 
         yeniMermi.GetComponent<Rigidbody2D>().velocity = yeniMermi.transform.up * 10;
         suankiDurum = Durum.normal;

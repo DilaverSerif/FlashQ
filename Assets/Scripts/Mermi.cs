@@ -4,8 +4,24 @@ using UnityEngine;
 
 public class Mermi : MonoBehaviour
 {
+    private  int hiz,hasarGucu;
+    private SpriteRenderer spriteRenderer;
+    public ObjectPool.MermiTuru tur;
+    private void Awake() {
+        spriteRenderer = GetComponent<SpriteRenderer>();
+    }
+
+
+    public void OzellikAta(int phiz,int phasarGucu,Sprite sprite,Vector2 basla,float don)
+    {
+        spriteRenderer.sprite = sprite;
+        hiz = phiz;
+        hasarGucu = phasarGucu;
+        transform.position = basla;
+        transform.rotation = Quaternion.Euler(0,0,don);
+    }
     private void OnBecameInvisible()
     {
-        Destroy(gameObject);
+        ObjectPool.MermiDepola(gameObject);
     }
 }

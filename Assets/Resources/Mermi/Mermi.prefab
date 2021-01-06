@@ -11,8 +11,8 @@ GameObject:
   - component: {fileID: 3996659076260942354}
   - component: {fileID: 1928195935871803297}
   - component: {fileID: 3985532901648002640}
-  - component: {fileID: 5641816619929258565}
   - component: {fileID: 8833480464374595810}
+  - component: {fileID: 4947007855902304216}
   m_Layer: 0
   m_Name: Mermi
   m_TagString: Untagged
@@ -42,7 +42,7 @@ Rigidbody2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3996659076260942353}
-  m_BodyType: 0
+  m_BodyType: 1
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
@@ -67,25 +67,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 58c4f999de086c34fb5ad4ce84e023c4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!95 &5641816619929258565
-Animator:
-  serializedVersion: 3
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3996659076260942353}
-  m_Enabled: 0
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: bc2005fc9690bf140af988235613cc87, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
+  tur: 0
 --- !u!212 &8833480464374595810
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -137,3 +119,19 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!58 &4947007855902304216
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3996659076260942353}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 0.112

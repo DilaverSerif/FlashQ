@@ -6,14 +6,34 @@ public class Enemy : MonoBehaviour
 {
     private Vector2 hedef, fark;
     private float aradakiMesafa;
-    private int can,hiz;
+    public int mesafeMiktari,hiz,can,mermiHizi,mermiGucu;
     private bool dur,ates;
-    [SerializeField]
+    public CreateEnemy kaynak;
+    private Rigidbody2D body;
+    private SpriteRenderer spriteRenderer;
+    private ObjectPool.MermiTuru mermiTuru;
+    private CreateEnemy.Mesafe mesafeTuru;
+    private CreateEnemy.Zeka zekaTuru;
 
+    private void Awake() {
+        body = GetComponent<Rigidbody2D>();
+        spriteRenderer = GetComponent<SpriteRenderer>();
+        spriteRenderer.sprite = kaynak.dusmanSprite;
+
+        mesafeMiktari = kaynak.mesafeMiktari;
+        hiz = kaynak.hiz;
+        can = kaynak.can;
+        mermiHizi = kaynak.mermiHizi;
+        mermiGucu = kaynak.mermiGucu;
+
+        mermiTuru = kaynak.mermiTuru;
+        zekaTuru = kaynak.zeka;
+        mesafeTuru = kaynak.mesafe;
+    }
     // Start is called before the first frame update
     private void Start()
     {
-        OyuncuyaBak();
+        StartCoroutine(OyuncuyaGit());
     }
 
     private void OyuncuyaBak()
@@ -29,17 +49,45 @@ public class Enemy : MonoBehaviour
 
     IEnumerator OyuncuyaGit()
     {
-        
-    }
 
-    // Update is called once per frame
-    void Update()
-    {
-        if (Vector2.Distance(transform.position, hedef) < 1f)
+        switch (kaynak.zeka)
         {
-            //Debug.Log("BOM");
+            
+            case CreateEnemy.Zeka.takipEden:
+
+                while (true)
+                {
+                    OyuncuyaBak();
+                    TakipZeka();
+
+                    yield return new WaitForEndOfFrame();
+                }
+
+            default:
+            break;
+
         }
 
-        GetComponent<Rigidbody2D>().velocity = fark;
+        yield return new WaitForEndOfFrame();
     }
+
+
+    private void TakipZeka()
+    {
+        if (Vector2.Distance(new Vector2(transform.position.x,transform.position.y),hedef) > mesafeMiktari) //MESAFE MİKTARİ
+        {
+            OyuncuyaBak();
+            body.velocity = fark * hiz; //HİZ
+
+        }
+        else if(body.angularVelocity <= 3 & body.angularVelocity > 2) //MESAFE MİKTARİ
+        {
+            body.velocity = fark * -hiz;
+        }
+        else
+        {
+            body.velocity = Vector2.zero;
+        }
+    }
+
 }
