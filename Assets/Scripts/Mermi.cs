@@ -11,6 +11,10 @@ public class Mermi : MonoBehaviour
         spriteRenderer = GetComponent<SpriteRenderer>();
     }
 
+    private void Reset() {
+         GetComponent<BoxCollider2D>();
+    }
+
 
     public void OzellikAta(int phiz,int phasarGucu,Sprite sprite,Vector2 basla,float don)
     {

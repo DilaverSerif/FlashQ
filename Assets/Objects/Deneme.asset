@@ -14,13 +14,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   oluncePatla: 0
   atesEt: 1
-  dusmanSprite: {fileID: 21300000, guid: 63f3c6560daf19343b9764bf4fa56af2, type: 3}
+  docla: 1
+  dusmanSprite: {fileID: 21300000, guid: b34bd806f2afcfb42bfd751ac8f91ed3, type: 3}
   zeka: 0
   mermiTuru: 0
   mesafe: 0
-  mesafeMiktari: 5
-  hiz: 1
+  mesafeMiktari: 10
   can: 3
   mermiHizi: 2
   mermiGucu: 1
-  saldiriCapi: 0
+  hiz: 3

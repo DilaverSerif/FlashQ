@@ -5,9 +5,9 @@ using UnityEngine;
 public class Enemy : MonoBehaviour
 {
     private Vector2 hedef, fark;
-    private float aradakiMesafa;
-    public int mesafeMiktari,hiz,can,mermiHizi,mermiGucu;
-    private bool dur,ates;
+    private float aradakiMesafa, hiz, sayac;
+    public int mesafeMiktari, can, mermiHizi, mermiGucu;
+    private bool dur, ates, docla;
     public CreateEnemy kaynak;
     private Rigidbody2D body;
     private SpriteRenderer spriteRenderer;
@@ -15,7 +15,16 @@ public class Enemy : MonoBehaviour
     private CreateEnemy.Mesafe mesafeTuru;
     private CreateEnemy.Zeka zekaTuru;
 
-    private void Awake() {
+
+
+    private float RotateSpeed = 5f;
+    private float Radius = 18f;
+
+    private Vector2 _centre;
+    private float _angle;
+
+    private void Awake()
+    {
         body = GetComponent<Rigidbody2D>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         spriteRenderer.sprite = kaynak.dusmanSprite;
@@ -29,11 +38,16 @@ public class Enemy : MonoBehaviour
         mermiTuru = kaynak.mermiTuru;
         zekaTuru = kaynak.zeka;
         mesafeTuru = kaynak.mesafe;
+        docla = kaynak.docla;
+
+
     }
     // Start is called before the first frame update
     private void Start()
     {
         StartCoroutine(OyuncuyaGit());
+
+
     }
 
     private void OyuncuyaBak()
@@ -52,7 +66,7 @@ public class Enemy : MonoBehaviour
 
         switch (kaynak.zeka)
         {
-            
+
             case CreateEnemy.Zeka.takipEden:
 
                 while (true)
@@ -64,30 +78,57 @@ public class Enemy : MonoBehaviour
                 }
 
             default:
-            break;
+                break;
 
         }
 
-        yield return new WaitForEndOfFrame();
+    }
+
+    private void OnEnable()
+    {
+        sayac = 0;
+    }
+
+    private void DocZeka()
+    {
+        _angle += Time.deltaTime;
+
+        var offset = new Vector3(Mathf.Sin(_angle)*-0.3f, Mathf.Cos(_angle*-0.3f), 0);
+        body.velocity = offset;
+
     }
 
 
     private void TakipZeka()
     {
-        if (Vector2.Distance(new Vector2(transform.position.x,transform.position.y),hedef) > mesafeMiktari) //MESAFE MİKTARİ
+        float oyuncuFark = Vector2.Distance(new Vector2(transform.position.x, transform.position.y), hedef);
+        OyuncuyaBak();
+
+        if (oyuncuFark > 3f) //MESAFE MİKTARİ
         {
-            OyuncuyaBak();
-            body.velocity = fark * hiz; //HİZ
+            body.velocity = transform.up * hiz; //HİZ
 
         }
-        else if(body.angularVelocity <= 3 & body.angularVelocity > 2) //MESAFE MİKTARİ
+
+        else if (oyuncuFark <= 1f) //MESAFE MİKTARİ
         {
-            body.velocity = fark * -hiz;
+            body.velocity = transform.up * -hiz;
         }
-        else
+        else if (oyuncuFark <= 3f & oyuncuFark > 1.5f)
         {
-            body.velocity = Vector2.zero;
+            if (body.velocity.magnitude > 0 & !docla)
+            {
+                body.velocity = Vector2.zero;
+
+            }
+
+            else if (docla)
+            {
+                DocZeka();
+            }
+
         }
+
     }
 
 }
