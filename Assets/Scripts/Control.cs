@@ -71,18 +71,19 @@ public class Control : MonoBehaviour, IDragHandler, IPointerDownHandler, IPointe
 
     private void Fire()
     {
-
-        Vector2 fark = ilkVector - new Vector2(Player.transform.position.x, Player.transform.position.y);
+        Vector2 fark = new Vector2(Player.transform.position.x, Player.transform.position.y) - ilkVector;
 
         float Angle = Mathf.Atan2(fark.y, fark.x);
         float AngleInDegrees = Angle * Mathf.Rad2Deg;
-
-
         Player.GetComponent<Player>().Bak(AngleInDegrees);
-        var yeniMermi = ObjectPool.MermiKullan(ObjectPool.MermiTuru.normal,3,3,Player.transform.position,AngleInDegrees-90);
-        
 
-        yeniMermi.GetComponent<Rigidbody2D>().velocity = yeniMermi.transform.up * 10;
+
+
+        hedefleyici.transform.rotation = Quaternion.Euler(0, 0, AngleInDegrees - 90);
+
+
+        ObjectPool.MermiKullan(5, 5, Mermi.MermiTuru.normal, Player.transform.position, AngleInDegrees+90,9);
+
         suankiDurum = Durum.normal;
     }
 }

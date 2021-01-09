@@ -1,17 +1,19 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
 
 public class Enemy : MonoBehaviour
 {
     private Vector2 hedef, fark;
-    private float aradakiMesafa, hiz, sayac;
+    private float aradakiMesafa, hiz, sayac, atesAraligi;
     public int mesafeMiktari, can, mermiHizi, mermiGucu;
-    private bool dur, ates, docla;
+    private bool dur, ates, docla, surekliTakip;
     public CreateEnemy kaynak;
     private Rigidbody2D body;
+    private CircleCollider2D box;
     private SpriteRenderer spriteRenderer;
-    private ObjectPool.MermiTuru mermiTuru;
+    private Mermi.MermiTuru mermiTuru;
     private CreateEnemy.Mesafe mesafeTuru;
     private CreateEnemy.Zeka zekaTuru;
 
@@ -26,6 +28,7 @@ public class Enemy : MonoBehaviour
     private void Awake()
     {
         body = GetComponent<Rigidbody2D>();
+        box = GetComponent<CircleCollider2D>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         spriteRenderer.sprite = kaynak.dusmanSprite;
 
@@ -39,6 +42,8 @@ public class Enemy : MonoBehaviour
         zekaTuru = kaynak.zeka;
         mesafeTuru = kaynak.mesafe;
         docla = kaynak.docla;
+        surekliTakip = kaynak.surekliTakip;
+        atesAraligi = kaynak.atesAraligi;
 
 
     }
@@ -46,8 +51,7 @@ public class Enemy : MonoBehaviour
     private void Start()
     {
         StartCoroutine(OyuncuyaGit());
-
-
+        StartCoroutine(AtesEt());
     }
 
     private void OyuncuyaBak()
@@ -73,7 +77,6 @@ public class Enemy : MonoBehaviour
                 {
                     OyuncuyaBak();
                     TakipZeka();
-
                     yield return new WaitForEndOfFrame();
                 }
 
@@ -89,13 +92,63 @@ public class Enemy : MonoBehaviour
         sayac = 0;
     }
 
+    private IEnumerator AtesEt()
+    {
+        while (gameObject.activeSelf)
+        {
+            yield return new WaitForSeconds(atesAraligi);
+            ObjectPool.MermiKullan(mermiHizi,mermiGucu,mermiTuru,transform.position,transform.rotation.eulerAngles.z,gameObject.layer);
+        }
+    }
+
     private void DocZeka()
     {
         _angle += Time.deltaTime;
 
-        var offset = new Vector3(Mathf.Sin(_angle)*-0.3f, Mathf.Cos(_angle*-0.3f), 0);
+        var offset = new Vector3(Mathf.Sin(_angle) * -0.3f, Mathf.Cos(_angle * -0.3f), 0);
         body.velocity = offset;
 
+    }
+
+    private void TakipEtmeyen()
+    {
+        float oyuncuFark = Vector2.Distance(new Vector2(transform.position.x, transform.position.y), hedef);
+
+        if (surekliTakip)
+        {
+            while (oyuncuFark > 1)
+            {
+                oyuncuFark = Vector2.Distance(new Vector2(transform.position.x, transform.position.y), hedef);
+                OyuncuyaBak();
+                body.velocity = transform.up * hiz;
+            }
+
+        }
+        else
+        {
+            while (oyuncuFark > 1)
+            {
+                body.velocity = transform.up * hiz;
+            }
+        }
+
+        StartCoroutine("Boom");
+    }
+
+
+    IEnumerator Boom()
+    {
+        box.radius = 0;
+        spriteRenderer.DOFade(0, 0.15F);
+        yield return new WaitForSeconds(0.15f);
+
+        while (box.radius < 0.45f)
+        {
+            box.radius += 0.1f;
+            yield return new WaitForSeconds(0.1f);
+        }
+
+       // ObjectPool.DusmanDepola(gameObject);
     }
 
 
@@ -129,6 +182,16 @@ public class Enemy : MonoBehaviour
 
         }
 
+    }
+
+    public void CanSistemi(int gelenHasar)
+    {
+        can -= gelenHasar;
+
+        if (can <= 0)
+        {
+            //ObjectPool.DusmanDepola(gameObject);
+        }
     }
 
 }

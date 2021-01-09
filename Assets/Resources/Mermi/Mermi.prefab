@@ -13,9 +13,9 @@ GameObject:
   - component: {fileID: 3985532901648002640}
   - component: {fileID: 8833480464374595810}
   - component: {fileID: 1307455612}
-  m_Layer: 0
+  m_Layer: 5
   m_Name: Mermi
-  m_TagString: Untagged
+  m_TagString: Mermi
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -28,7 +28,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3996659076260942353}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.28, y: -0.685, z: 1.4168898}
+  m_LocalPosition: {x: 540, y: 960, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -107,7 +107,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: -8195666506984560710, guid: 3347fd22136840947927ced7626582cd,
+  m_Sprite: {fileID: 1020258170688978642, guid: 3347fd22136840947927ced7626582cd,
     type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -129,14 +129,14 @@ BoxCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 0.36090225, y: 0.4830827}
+    oldSize: {x: 0.09022556, y: 0.21052632}
     newSize: {x: 0.48, y: 1.12}
     adaptiveTilingThreshold: 0.5
     drawMode: 0

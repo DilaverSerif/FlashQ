@@ -4,60 +4,44 @@ using UnityEngine;
 
 public class ObjectPool : MonoBehaviour
 {
-
-    private static GameObject mermi;
+    private static ObjectPool1 mermiHavuzu;
     private static Sprite[] mermiSprites;
-
-    private static List<GameObject> mermiDeposu = new List<GameObject>();
-    private static List<GameObject> dusmaniDeposu = new List<GameObject>();
-    // Start is called before the first frame update
-
-
-    public enum MermiTuru
-    {
-        normal,
-        kuvvetli
-    }
+    private GameObject mermi;
 
     private void Awake()
     {
         mermi = Resources.Load<GameObject>("Mermi/Mermi");
-        Debug.Log(mermi.name);
+        mermiHavuzu = new ObjectPool1(mermi);
+        
         mermiSprites = Resources.LoadAll<Sprite>("Mermi/Sprites/Mermiler");
     }
 
-    public static void MermiDepola(GameObject gelenMermi)
-    {
-        mermiDeposu.Add(gelenMermi);
-        gelenMermi.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
-        gelenMermi.SetActive(false);
+    private void Start() {
+        mermiHavuzu.obje = mermi;
+        mermiHavuzu.Depola(100);
+
     }
 
-    public static GameObject MermiKullan(MermiTuru turu, int hasarGucu, int hiz, Vector3 baslaVector, float dongu)
+    
+    public static void MermiKullan(int phiz, int phasarGucu,Mermi.MermiTuru tur,Vector2 baslamaVectoru, float zEkseni, LayerMask katman)
     {
-        Sprite sanalSprite = null;
-        GameObject sanalMermi;
+        Sprite bos = null;
+        var mermi = mermiHavuzu.ObjeKullan();
 
-        if (mermiDeposu.Count == 0)
+        switch (tur)
         {
-            sanalMermi = Instantiate(mermi);
-        }
-        else
-        {
-            sanalMermi = mermiDeposu[0];
-            mermiDeposu.RemoveAt(0);
+            case Mermi.MermiTuru.normal:
+            bos = mermiSprites[0];
+            break;
+            
         }
 
-        switch (turu)
-        {
-            case MermiTuru.normal:
-                sanalSprite = mermiSprites[0];
-                break;
-
-        }
-
-        sanalMermi.GetComponent<Mermi>().OzellikAta(hiz, hasarGucu, sanalSprite,baslaVector,dongu);
-        if(sanalMermi.activeSelf == false) sanalMermi.SetActive(true);
-        return sanalMermi;
+        mermi.GetComponent<Mermi>().MermiAta(phiz,phasarGucu,bos,baslamaVectoru,zEkseni,katman);
     }
+
+    public static void MermiDepola(GameObject gelenObje)
+    {
+        mermiHavuzu.ObjeDepola(gelenObje);
+    }
+
 }

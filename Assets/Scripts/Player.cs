@@ -10,7 +10,7 @@ public class Player : MonoBehaviour
     public void Bak(float gelen)
     {
         DOTween.Kill("donus");
-        transform.DORotate(new Vector3(0,0,90+gelen),0.15f).SetId("donus");
+        transform.DORotate(new Vector3(0,0,gelen+90),0.15f).SetId("donus");
     }
 
 

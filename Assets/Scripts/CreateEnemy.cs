@@ -2,13 +2,13 @@
 
 [CreateAssetMenu(fileName = "CreateEnemy", menuName = "FlashQ/CreateEnemy", order = 0)]
 public class CreateEnemy : ScriptableObject {
-    public bool oluncePatla,atesEt,docla;
+    public bool oluncePatla,atesEt,docla,surekliTakip;
     public Sprite dusmanSprite;
     public Zeka zeka;
-    public ObjectPool.MermiTuru mermiTuru;
+    public Mermi.MermiTuru mermiTuru;
     public Mesafe mesafe;
     public int mesafeMiktari,can,mermiHizi,mermiGucu;
-    public float hiz;
+    public float hiz,atesAraligi;
     public enum Zeka
     {
         takipEden,
