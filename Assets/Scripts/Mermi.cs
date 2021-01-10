@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class Mermi : MonoBehaviour
 {
-    private int hiz, hasarGucu;
+    private int hasarGucu;
+    private float hiz;
     private Rigidbody2D body;
     private SpriteRenderer spriteRenderer;
     public MermiTuru tur;
@@ -15,7 +16,7 @@ public class Mermi : MonoBehaviour
         kuvvetli
     }
 
-    public void MermiAta(int phiz, int phasarGucu, Sprite sprite, Vector2 baslamaVectoru, float zEkseni, LayerMask katman)
+    public void MermiAta(float phiz, int phasarGucu, Sprite sprite, Vector2 baslamaVectoru, float zEkseni, LayerMask katman)
     {
         hiz = phiz;
         hasarGucu = phasarGucu;

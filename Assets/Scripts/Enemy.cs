@@ -8,7 +8,7 @@ public class Enemy : MonoBehaviour
     private Vector2 hedef, fark;
     private float aradakiMesafa, hiz, sayac, atesAraligi;
     public int mesafeMiktari, can, mermiHizi, mermiGucu;
-    private bool dur, ates, docla, surekliTakip;
+    private bool dur, ates, docla, odaklan;
     public CreateEnemy kaynak;
     private Rigidbody2D body;
     private CircleCollider2D box;
@@ -16,14 +16,19 @@ public class Enemy : MonoBehaviour
     private Mermi.MermiTuru mermiTuru;
     private CreateEnemy.Mesafe mesafeTuru;
     private CreateEnemy.Zeka zekaTuru;
-
-
-
     private float RotateSpeed = 5f;
     private float Radius = 18f;
 
     private Vector2 _centre;
     private float _angle;
+    private Durum durum = Durum.ilerliyor;
+
+    public enum Durum
+    {
+        patladi,
+        atesEdiyor,
+        ilerliyor
+    }
 
     private void Awake()
     {
@@ -36,13 +41,27 @@ public class Enemy : MonoBehaviour
         hiz = kaynak.hiz;
         can = kaynak.can;
         mermiHizi = kaynak.mermiHizi;
+
+        if (hiz > mermiHizi)
+        {
+            Debug.LogError("HATA MERMI HIZI HAREKET HIZINDAN DÜŞÜK");
+            Debug.Break();
+        }
+
         mermiGucu = kaynak.mermiGucu;
 
         mermiTuru = kaynak.mermiTuru;
         zekaTuru = kaynak.zeka;
         mesafeTuru = kaynak.mesafe;
         docla = kaynak.docla;
-        surekliTakip = kaynak.surekliTakip;
+
+        if (!odaklan & zekaTuru == CreateEnemy.Zeka.takipEden)
+        {
+            Debug.LogError("ZEKA TURU VE ODAKLAN DEGISKENLERI KONTROL EDIN");
+            Debug.Break();
+        }
+
+        odaklan = kaynak.odaklan;
         atesAraligi = kaynak.atesAraligi;
 
 
@@ -51,7 +70,6 @@ public class Enemy : MonoBehaviour
     private void Start()
     {
         StartCoroutine(OyuncuyaGit());
-        StartCoroutine(AtesEt());
     }
 
     private void OyuncuyaBak()
@@ -72,18 +90,27 @@ public class Enemy : MonoBehaviour
         {
 
             case CreateEnemy.Zeka.takipEden:
-
-                while (true)
+                while (durum != Durum.patladi)
                 {
-                    OyuncuyaBak();
                     TakipZeka();
                     yield return new WaitForEndOfFrame();
                 }
+                break;
 
+            case CreateEnemy.Zeka.takipEtmeyen:
+                OyuncuyaBak();
+                while (durum != Durum.patladi)
+                {
+                    TakipEtmeyen();
+                    yield return new WaitForEndOfFrame();
+                }
+                break;
             default:
                 break;
 
         }
+
+        StartCoroutine("Boom");
 
     }
 
@@ -97,7 +124,7 @@ public class Enemy : MonoBehaviour
         while (gameObject.activeSelf)
         {
             yield return new WaitForSeconds(atesAraligi);
-            ObjectPool.MermiKullan(mermiHizi,mermiGucu,mermiTuru,transform.position,transform.rotation.eulerAngles.z,gameObject.layer);
+            ObjectPool.MermiKullan(3.5f, mermiGucu, mermiTuru, transform.position, transform.rotation.eulerAngles.z, gameObject.layer);
         }
     }
 
@@ -114,25 +141,27 @@ public class Enemy : MonoBehaviour
     {
         float oyuncuFark = Vector2.Distance(new Vector2(transform.position.x, transform.position.y), hedef);
 
-        if (surekliTakip)
+        if (odaklan)
         {
-            while (oyuncuFark > 1)
-            {
-                oyuncuFark = Vector2.Distance(new Vector2(transform.position.x, transform.position.y), hedef);
-                OyuncuyaBak();
-                body.velocity = transform.up * hiz;
-            }
+            OyuncuyaBak();
+            body.velocity = transform.up * hiz;
 
+            if (oyuncuFark < 1.5f)
+            {
+
+                durum = Durum.patladi;
+            }
         }
         else
         {
-            while (oyuncuFark > 1)
+            body.velocity = transform.up * hiz;
+
+            if (oyuncuFark < 1.5f)
             {
-                body.velocity = transform.up * hiz;
+                durum = Durum.patladi;
             }
         }
 
-        StartCoroutine("Boom");
     }
 
 
@@ -148,13 +177,14 @@ public class Enemy : MonoBehaviour
             yield return new WaitForSeconds(0.1f);
         }
 
-       // ObjectPool.DusmanDepola(gameObject);
+            //DEPOLA
     }
 
 
     private void TakipZeka()
     {
         float oyuncuFark = Vector2.Distance(new Vector2(transform.position.x, transform.position.y), hedef);
+
         OyuncuyaBak();
 
         if (oyuncuFark > 3f) //MESAFE MİKTARİ
@@ -190,7 +220,7 @@ public class Enemy : MonoBehaviour
 
         if (can <= 0)
         {
-            //ObjectPool.DusmanDepola(gameObject);
+            StartCoroutine("Boom");
         }
     }
 

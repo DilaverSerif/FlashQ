@@ -23,7 +23,7 @@ public class ObjectPool : MonoBehaviour
     }
 
     
-    public static void MermiKullan(int phiz, int phasarGucu,Mermi.MermiTuru tur,Vector2 baslamaVectoru, float zEkseni, LayerMask katman)
+    public static void MermiKullan(float phiz, int phasarGucu,Mermi.MermiTuru tur,Vector2 baslamaVectoru, float zEkseni, LayerMask katman)
     {
         Sprite bos = null;
         var mermi = mermiHavuzu.ObjeKullan();
