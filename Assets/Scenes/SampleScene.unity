@@ -5150,6 +5150,7 @@ MonoBehaviour:
   mermiHizi: 0
   mermiGucu: 0
   kaynak: {fileID: 11400000, guid: 59b40647934583646ab51c30b2067b60, type: 2}
+  Radius: 4
 --- !u!212 &923565734
 SpriteRenderer:
   m_ObjectHideFlags: 0

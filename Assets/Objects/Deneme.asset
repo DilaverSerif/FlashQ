@@ -14,9 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   oluncePatla: 0
   atesEt: 0
-  docla: 0
-  odaklan: 0
-  zeka: 1
+  docla: 1
+  odaklan: 1
+  zeka: 0
   mermiTuru: 0
   mesafe: 0
   mesafeMiktari: 10
