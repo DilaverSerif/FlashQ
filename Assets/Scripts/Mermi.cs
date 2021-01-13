@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class Mermi : MonoBehaviour
 {
@@ -34,6 +32,7 @@ public class Mermi : MonoBehaviour
 
     private void OnEnable()
     {
+        guvenlik = false;
         body.velocity = transform.up * hiz;
     }
 
@@ -44,16 +43,20 @@ public class Mermi : MonoBehaviour
 
     private void OnBecameInvisible()
     {
-        ObjectPool.MermiDepola(gameObject);
+        ObjectPool.NesneDepola(gameObject);
     }
+
+    private bool guvenlik;
 
     private void OnTriggerEnter2D(Collider2D other)
     {
 
-        if (other.transform.tag == "Mermi")
+        if (other.transform.tag == "Mermi" | guvenlik)
         {
             return;
         }
+
+        guvenlik = true;
 
         switch (gameObject.layer)
         {
@@ -61,7 +64,6 @@ public class Mermi : MonoBehaviour
                 if (other.gameObject.tag == "Player")
                 {
                     other.gameObject.GetComponent<Player>().CanSistemi(hasarGucu);
-                    ObjectPool.MermiDepola(gameObject);
                 }
                 break;
 
@@ -69,12 +71,11 @@ public class Mermi : MonoBehaviour
                 if (other.gameObject.tag == "Enemy")
                 {
                     other.gameObject.GetComponent<Enemy>().CanSistemi(hasarGucu);
-                    ObjectPool.MermiDepola(gameObject);
                 }
                 break;
         }
 
-
+        ObjectPool.NesneDepola(gameObject);
 
     }
 }

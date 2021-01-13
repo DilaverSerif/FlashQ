@@ -4,7 +4,7 @@
 public class CreateEnemy : ScriptableObject
 {
     [Header("Zeka Ayarları")]
-    public bool oluncePatla, atesEt, docla;
+    public bool oluncePatla, atesEt, docla,kamizakeAtes;
     public Mermi.MermiTuru mermiTuru;
     public Zeka zeka;
 

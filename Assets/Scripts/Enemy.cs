@@ -5,10 +5,11 @@ using DG.Tweening;
 
 public class Enemy : MonoBehaviour
 {
-    private Vector2 hedef, fark;
-    private float saldiriMenzili, hiz, atesAraligi;
-    public int can, mermiHizi, mermiGucu;
-    private bool docla;
+    private GameObject hedef;
+    private Vector2 fark;
+    private float saldiriMenzili, hiz, atesAraligi,oyuncuFark;
+    private int mermiHizi, can, mermiGucu;
+    private bool docla, atesWait, kamizakeAtes;
     public CreateEnemy kaynak;
     private Sprite[] patlamaSprite;
     private Rigidbody2D body;
@@ -23,11 +24,14 @@ public class Enemy : MonoBehaviour
         patladi,
         atesEdiyor,
         ilerliyor,
-        docliyor
+        docliyor,
+        kaciyor
     }
 
     private void Awake()
     {
+        hedef = GameObject.FindGameObjectWithTag("Player");
+
         body = GetComponent<Rigidbody2D>();
         box = GetComponent<CircleCollider2D>();
         spriteRenderer = GetComponent<SpriteRenderer>();
@@ -39,10 +43,9 @@ public class Enemy : MonoBehaviour
         mermiGucu = kaynak.mermiGucu;
         mermiTuru = kaynak.mermiTuru;
         docla = kaynak.docla;
-
-
-
+        zekaTuru = kaynak.zeka;
         atesAraligi = kaynak.atesAraligi;
+        kamizakeAtes = kaynak.kamizakeAtes;
 
 
         if (hiz > mermiHizi)
@@ -55,76 +58,174 @@ public class Enemy : MonoBehaviour
         switch (zekaTuru)
         {
             case CreateEnemy.Zeka.YakinSaldiran:
-                saldiriMenzili = 5f;
-            break;
+                saldiriMenzili = 2f;
+                break;
             case CreateEnemy.Zeka.UzakSaldiran:
-                saldiriMenzili = 8f;
-            break;
+                saldiriMenzili = 5f;
+                break;
             case CreateEnemy.Zeka.Kamizake:
                 saldiriMenzili = 0.5f;
-            break;
+                break;
         }
 
 
+        if (kamizakeAtes & zekaTuru != CreateEnemy.Zeka.Kamizake)
+        {
+            Debug.Log("HATA KAMIZAKE ATES VE ZEKA UYUMSUZ");
+            Debug.Break();
+        }
+
     }
-
-    private void OyuncuyaBak()
+    private void Start()
     {
-        hedef = Objects.Player.transform.position;
-        fark = hedef - new Vector2(transform.position.x, transform.position.y);
+        StartCoroutine(OyuncuyaBak());
+        StartCoroutine(OyuncuyaGo());
+    }
+    private IEnumerator OyuncuyaBak()
+    {
+        while (durum != Durum.patladi)
+        {
+            oyuncuFark = Vector2.Distance(new Vector2(transform.position.x, transform.position.y), hedef.transform.position);
+            fark = new Vector2(hedef.transform.position.x, hedef.transform.position.y) - new Vector2(transform.position.x, transform.position.y);
 
-        float Angle = Mathf.Atan2(fark.y, fark.x);
-        float AngleInDegrees = Angle * Mathf.Rad2Deg;
-        transform.rotation = Quaternion.Euler(0, 0, AngleInDegrees - 90);
+            float Angle = Mathf.Atan2(fark.y, fark.x);
+            float AngleInDegrees = Angle * Mathf.Rad2Deg;
+
+            transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.Euler(0, 0, AngleInDegrees - 90), hiz * Time.deltaTime);
+
+            yield return new WaitForEndOfFrame();
+        }
+
+
     }
 
     private IEnumerator AtesEt()
     {
-        while (gameObject.activeSelf)
-        {
-            yield return new WaitForSeconds(atesAraligi);
-            ObjectPool.MermiKullan(3.5f, mermiGucu, mermiTuru, transform.position, transform.rotation.eulerAngles.z, gameObject.layer);
-        }
-
+        if (atesWait | durum == Durum.patladi) yield break;
+        atesWait = true;
+        yield return new WaitForSeconds(atesAraligi);
+        atesWait = false;
+        ObjectPool.MermiKullan(mermiHizi, mermiGucu, mermiTuru, transform.position, transform.rotation.eulerAngles.z, gameObject.layer);
     }
 
-    private void ZekaPiriltisi()
+    private IEnumerator Boom()
     {
-        float oyuncuFark = Vector2.Distance(new Vector2(transform.position.x, transform.position.y), hedef);
+        if (durum == Durum.patladi) yield break;
 
-            OyuncuyaBak();
-            body.velocity = transform.up * hiz;
-
-            if (oyuncuFark < 1.5f)
-            {
-                durum = Durum.patladi;
-            }
-
-    }
-
-    IEnumerator Boom()
-    {
+        durum = Durum.patladi;
         body.velocity = Vector2.zero;
         box.radius = 0;
 
         for (int i = 0; i < 4; i++)
         {
-            yield return new WaitForSeconds(0.15f);
+            yield return new WaitForSeconds(0.075f);
             box.radius += 0.09f;
             spriteRenderer.sprite = patlamaSprite[i];
         }
-        yield return new WaitForSeconds(0.1f);
+        yield return new WaitForSeconds(0.075f);
         spriteRenderer.sprite = null;
         box.enabled = false;
+        ObjectPool.NesneDepola(gameObject);
     }
+    
 
-    private void TakipZeka()
+    private void YapayZeka()
     {
-        float oyuncuFark = Vector2.Distance(new Vector2(transform.position.x, transform.position.y), hedef);
+        if (durum == Durum.patladi) return;
 
-        OyuncuyaBak();
+        if (oyuncuFark > saldiriMenzili)
+        {
+            durum = Durum.ilerliyor;
+            StartCoroutine("OyuncuyaGo");
+        }
+        else if (oyuncuFark < 1.5f)
+        {
+            durum = Durum.kaciyor;
+            StartCoroutine("Kac");
+        }
+        else if (oyuncuFark > 1.5f & oyuncuFark < saldiriMenzili)
+        {
+            durum = Durum.atesEdiyor;
+            StartCoroutine("Saldir");
+        }
 
     }
+
+    private void OyuncuyaIlerle()
+    {
+        body.velocity = transform.up * hiz;
+    }
+    private bool doc;
+    private int yon = 10;
+
+    private IEnumerator Docle()
+    {
+        doc = true;
+        StartCoroutine(DocSayac(1,10));
+        while (durum == Durum.atesEdiyor & doc)
+        {
+            transform.RotateAround(hedef.transform.position, new Vector3(0,0,1), Time.deltaTime * (hiz * yon));
+            yield return new WaitForEndOfFrame();
+        }
+        doc = false;
+
+    }
+
+    private IEnumerator DocSayac(float minCD, float maxCD)
+    {
+        while (doc)
+        {
+            if(Random.Range(-5,6) > 0) yon = 10;
+            else yon = -10;
+            yield return new WaitForSeconds(Random.Range(minCD, maxCD));
+        }
+
+    }
+
+
+    private IEnumerator Saldir()
+    {
+        while (durum == Durum.atesEdiyor &
+        (oyuncuFark < saldiriMenzili & oyuncuFark > 1.5f))
+        {
+            body.velocity = Vector2.zero;
+            if (!atesWait) StartCoroutine("AtesEt");
+            if (!doc & docla) StartCoroutine("Docle");
+            yield return new WaitForEndOfFrame();
+        }
+
+        YapayZeka();
+    }
+
+    private IEnumerator OyuncuyaGo()
+    {
+        while (oyuncuFark > saldiriMenzili &
+         durum == Durum.ilerliyor)
+        {
+            body.velocity = transform.up * hiz;
+            yield return new WaitForEndOfFrame();
+        }
+        YapayZeka();
+    }
+
+    private IEnumerator Kac()
+    {
+        while (durum == Durum.kaciyor &
+        oyuncuFark < 1.5f)
+        {
+            body.velocity = transform.up * -hiz;
+            yield return new WaitForEndOfFrame();
+        }
+
+        YapayZeka();
+    }
+
+
+    private void OyuncuGerile()
+    {
+        body.velocity = transform.up * -hiz;
+    }
+
 
     public void CanSistemi(int gelenHasar)
     {

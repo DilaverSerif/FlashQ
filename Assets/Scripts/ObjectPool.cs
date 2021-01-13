@@ -5,20 +5,29 @@ using UnityEngine;
 public class ObjectPool : MonoBehaviour
 {
     private static ObjectPool1 mermiHavuzu;
+    private static ObjectPool1 dusmanHavuzu;
     private static Sprite[] mermiSprites;
-    private GameObject mermi;
+    private GameObject mermi,dusman;
 
     private void Awake()
     {
         mermi = Resources.Load<GameObject>("Mermi/Mermi");
+        dusman = Resources.Load<GameObject>("Enemy");
         mermiHavuzu = new ObjectPool1(mermi);
         
         mermiSprites = Resources.LoadAll<Sprite>("Mermi/Sprites/Mermiler");
+
+        dusmanHavuzu = new ObjectPool1(dusman);
     }
 
     private void Start() {
         mermiHavuzu.obje = mermi;
         mermiHavuzu.Depola(100);
+
+    }
+
+    public static void DusmanKullan(GameObject gelenDusman)
+    {
 
     }
 
@@ -39,9 +48,14 @@ public class ObjectPool : MonoBehaviour
         mermi.GetComponent<Mermi>().MermiAta(phiz,phasarGucu,bos,baslamaVectoru,zEkseni,katman);
     }
 
-    public static void MermiDepola(GameObject gelenObje)
+    public static void NesneDepola(GameObject gelenObje)
     {
-        mermiHavuzu.ObjeDepola(gelenObje);
+        if (gelenObje.tag == "Enemy")
+        {
+            dusmanHavuzu.ObjeDepola(gelenObje);
+        }
+        else mermiHavuzu.ObjeDepola(gelenObje);
+        
     }
 
 }
