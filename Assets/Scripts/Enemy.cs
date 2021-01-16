@@ -24,18 +24,10 @@ public class Enemy : MonoBehaviour
         patladi,
         atesEdiyor,
         ilerliyor,
-        docliyor,
         kaciyor
     }
 
-    private void Awake()
-    {
-        hedef = GameObject.FindGameObjectWithTag("Player");
-
-        body = GetComponent<Rigidbody2D>();
-        box = GetComponent<CircleCollider2D>();
-        spriteRenderer = GetComponent<SpriteRenderer>();
-        patlamaSprite = Resources.LoadAll<Sprite>("Sprites/patlama");
+private void OnEnable() {
         spriteRenderer.sprite = kaynak.dusmanSprite;
         hiz = kaynak.hiz;
         can = kaynak.can;
@@ -46,14 +38,7 @@ public class Enemy : MonoBehaviour
         zekaTuru = kaynak.zeka;
         atesAraligi = kaynak.atesAraligi;
         kamizakeAtes = kaynak.kamizakeAtes;
-
-
-        if (hiz > mermiHizi)
-        {
-            Debug.LogError("HATA MERMI HIZI HAREKET HIZINDAN DÜŞÜK");
-            Debug.Break();
-        }
-
+        atesWait = kaynak.atesETME;
 
         switch (zekaTuru)
         {
@@ -68,6 +53,12 @@ public class Enemy : MonoBehaviour
                 break;
         }
 
+        if (hiz > mermiHizi)
+        {
+            Debug.LogError("HATA MERMI HIZI HAREKET HIZINDAN DÜŞÜK");
+            Debug.Break();
+        }
+
 
         if (kamizakeAtes & zekaTuru != CreateEnemy.Zeka.Kamizake)
         {
@@ -75,12 +66,23 @@ public class Enemy : MonoBehaviour
             Debug.Break();
         }
 
-    }
-    private void Start()
-    {
+                
+                
         StartCoroutine(OyuncuyaBak());
         StartCoroutine(OyuncuyaGo());
+}
+
+    private void Awake()
+    {
+        hedef = GameObject.FindGameObjectWithTag("Player");
+
+        body = GetComponent<Rigidbody2D>();
+        box = GetComponent<CircleCollider2D>();
+        spriteRenderer = GetComponent<SpriteRenderer>();
+        patlamaSprite = Resources.LoadAll<Sprite>("Sprites/patlama");
     }
+
+
     private IEnumerator OyuncuyaBak()
     {
         while (durum != Durum.patladi)
@@ -99,14 +101,7 @@ public class Enemy : MonoBehaviour
 
     }
 
-    private IEnumerator AtesEt()
-    {
-        if (atesWait | durum == Durum.patladi) yield break;
-        atesWait = true;
-        yield return new WaitForSeconds(atesAraligi);
-        atesWait = false;
-        ObjectPool.MermiKullan(mermiHizi, mermiGucu, mermiTuru, transform.position, transform.rotation.eulerAngles.z, gameObject.layer);
-    }
+
 
     private IEnumerator Boom()
     {
@@ -151,10 +146,6 @@ public class Enemy : MonoBehaviour
 
     }
 
-    private void OyuncuyaIlerle()
-    {
-        body.velocity = transform.up * hiz;
-    }
     private bool doc;
     private int yon = 10;
 
@@ -185,8 +176,7 @@ public class Enemy : MonoBehaviour
 
     private IEnumerator Saldir()
     {
-        while (durum == Durum.atesEdiyor &
-        (oyuncuFark < saldiriMenzili & oyuncuFark > 1.5f))
+        while (oyuncuFark < saldiriMenzili & oyuncuFark > 1.5f)
         {
             body.velocity = Vector2.zero;
             if (!atesWait) StartCoroutine("AtesEt");
@@ -195,6 +185,15 @@ public class Enemy : MonoBehaviour
         }
 
         YapayZeka();
+    }
+
+        private IEnumerator AtesEt()
+    {
+        if (atesWait | durum == Durum.patladi) yield break;
+        atesWait = true;
+        yield return new WaitForSeconds(atesAraligi);
+        atesWait = false;
+        ObjectPool.MermiKullan(mermiHizi, mermiGucu, mermiTuru, transform.position, transform.rotation.eulerAngles.z, gameObject.layer);
     }
 
     private IEnumerator OyuncuyaGo()

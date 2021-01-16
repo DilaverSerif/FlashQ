@@ -21,13 +21,21 @@ public class ObjectPool : MonoBehaviour
     }
 
     private void Start() {
-        mermiHavuzu.obje = mermi;
+        //mermiHavuzu.obje = mermi;
         mermiHavuzu.Depola(100);
+        dusmanHavuzu.Depola(100);
+
 
     }
 
-    public static void DusmanKullan(GameObject gelenDusman)
+
+    public static void DusmanSpawn(CreateEnemy pDusman,Vector2 pozisyon)
     {
+        var dusman = dusmanHavuzu.ObjeKullan();
+
+        dusman.GetComponent<Enemy>().kaynak = pDusman;
+        dusman.transform.position = pozisyon;
+        dusman.SetActive(true);
 
     }
 

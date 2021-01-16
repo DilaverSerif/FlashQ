@@ -12,8 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f7cc7d7a808e5d6468d28304ae384f24, type: 3}
   m_Name: Deneme
   m_EditorClassIdentifier: 
-  oluncePatla: 0
-  atesEt: 0
+  atesETME: 0
   docla: 0
   kamizakeAtes: 0
   mermiTuru: 0

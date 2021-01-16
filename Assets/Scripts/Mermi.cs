@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 
 public class Mermi : MonoBehaviour
 {
@@ -8,10 +8,13 @@ public class Mermi : MonoBehaviour
     private SpriteRenderer spriteRenderer;
     public MermiTuru tur;
 
-        public enum MermiTuru
+    public enum MermiTuru
     {
         normal,
-        kuvvetli
+        icindenGecen,
+        kuvvetli,
+        akilli,
+        parcalanan
     }
 
     public void MermiAta(float phiz, int phasarGucu, Sprite sprite, Vector2 baslamaVectoru, float zEkseni, LayerMask katman)
@@ -23,6 +26,14 @@ public class Mermi : MonoBehaviour
         transform.rotation = Quaternion.Euler(0, 0, zEkseni);
         gameObject.layer = katman;
         gameObject.SetActive(true);
+
+        switch (tur)
+        {
+            case MermiTuru.normal:
+
+            break;
+        }
+        
     }
     private void Awake()
     {
@@ -44,6 +55,11 @@ public class Mermi : MonoBehaviour
     private void OnBecameInvisible()
     {
         ObjectPool.NesneDepola(gameObject);
+    }
+
+    public virtual void TemaSonucu()
+    {
+        
     }
 
     private bool guvenlik;

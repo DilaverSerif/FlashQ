@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -14,7 +12,7 @@ public class Control : MonoBehaviour, IDragHandler, IPointerDownHandler, IPointe
     private Vector2 ilkVector, sonVector;
     private Durum suankiDurum = Durum.normal;
 
-    public GameObject hedefleyici, mermi, Player, kamera;
+    public GameObject hedefleyici, Player, kamera;
 
     public void OnDrag(PointerEventData eventData)
     {

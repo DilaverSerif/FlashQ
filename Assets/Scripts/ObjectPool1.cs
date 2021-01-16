@@ -28,7 +28,6 @@ public class ObjectPool1 : MonoBehaviour
         else
         {
             ObjeDepola(Object.Instantiate(obje));
-            Debug.Log("YENI YARRATILDI " + objeHavuzu.Count);
             return (objeHavuzu.Pop());
 
         }
