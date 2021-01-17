@@ -6,10 +6,10 @@ public class Player : MonoBehaviour
     private int can, maxCan;
     private CreateMermi.MermiTuru mermiTuru;
 
-    public void Bak(float gelen)
+    public void Bak(float gelen,bool ates)
     {
         DOTween.Kill("donus");
-        transform.DORotate(new Vector3(0, 0, gelen + 90), 0.1f).SetId("donus").OnComplete(() => AtesEt());
+        transform.DORotate(new Vector3(0, 0, gelen + 90), 0.1f).SetId("donus").OnComplete(() => AtesEt(ates));
     }
 
 
@@ -27,8 +27,9 @@ public class Player : MonoBehaviour
 
     }
 
-    private void AtesEt()
+    private void AtesEt(bool ates)
     {
+        if(!ates) return;
         ObjectPool.MermiKullan(mermiTuru, gameObject, 1);
     }
 

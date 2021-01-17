@@ -30,7 +30,7 @@ public class Control : MonoBehaviour, IDragHandler, IPointerDownHandler, IPointe
 
         hedefleyici.transform.rotation = Quaternion.Euler(0, 0, AngleInDegrees - 90);
         hedefleyici.transform.localScale = new Vector3(1, mesafe, 1);
-        Player.GetComponent<Player>().Bak(AngleInDegrees);
+        Player.GetComponent<Player>().Bak(AngleInDegrees,false);
     }
 
     public void OnPointerDown(PointerEventData eventData)
@@ -73,7 +73,7 @@ public class Control : MonoBehaviour, IDragHandler, IPointerDownHandler, IPointe
 
         float Angle = Mathf.Atan2(fark.y, fark.x);
         float AngleInDegrees = Angle * Mathf.Rad2Deg;
-        Player.GetComponent<Player>().Bak(AngleInDegrees);
+        Player.GetComponent<Player>().Bak(AngleInDegrees,true);
 
         suankiDurum = Durum.normal;
     }
