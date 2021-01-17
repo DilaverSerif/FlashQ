@@ -75,13 +75,6 @@ public class Control : MonoBehaviour, IDragHandler, IPointerDownHandler, IPointe
         float AngleInDegrees = Angle * Mathf.Rad2Deg;
         Player.GetComponent<Player>().Bak(AngleInDegrees);
 
-
-
-        hedefleyici.transform.rotation = Quaternion.Euler(0, 0, AngleInDegrees - 90);
-
-
-        ObjectPool.MermiKullan(5, 5, Mermi.MermiTuru.normal, Player.transform.position, AngleInDegrees+90,9);
-
         suankiDurum = Durum.normal;
     }
 }

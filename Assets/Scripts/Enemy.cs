@@ -15,8 +15,8 @@ public class Enemy : MonoBehaviour
     private Rigidbody2D body;
     private CircleCollider2D box;
     private SpriteRenderer spriteRenderer;
-    private Mermi.MermiTuru mermiTuru;
     private CreateEnemy.Zeka zekaTuru;
+    private CreateMermi.MermiTuru mermiTuru;
     private Durum durum = Durum.ilerliyor;
 
     public enum Durum
@@ -193,7 +193,7 @@ private void OnEnable() {
         atesWait = true;
         yield return new WaitForSeconds(atesAraligi);
         atesWait = false;
-        ObjectPool.MermiKullan(mermiHizi, mermiGucu, mermiTuru, transform.position, transform.rotation.eulerAngles.z, gameObject.layer);
+        ObjectPool.MermiKullan(mermiTuru,gameObject,1);
     }
 
     private IEnumerator OyuncuyaGo()

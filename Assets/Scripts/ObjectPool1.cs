@@ -29,7 +29,6 @@ public class ObjectPool1 : MonoBehaviour
         {
             ObjeDepola(Object.Instantiate(obje));
             return (objeHavuzu.Pop());
-
         }
 
     }

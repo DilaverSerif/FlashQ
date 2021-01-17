@@ -2,38 +2,32 @@ using UnityEngine;
 
 public class Mermi : MonoBehaviour
 {
-    private int hasarGucu;
-    private float hiz;
     private Rigidbody2D body;
     private SpriteRenderer spriteRenderer;
-    public MermiTuru tur;
+    private float mermiHizi, mermiHasari;
+    public float ekstraGuc;
+    private bool guvenlik;
+    public CreateMermi mermiKaynak;
+    public CreateMermi.MermiTuru mermiTuru;
+    public GameObject parent;
 
-    public enum MermiTuru
+    public void MermiAta()
     {
-        normal,
-        icindenGecen,
-        kuvvetli,
-        akilli,
-        parcalanan
-    }
+        //MERMİ
+        spriteRenderer.sprite = mermiKaynak.mermiSprite;
+        mermiHizi = mermiKaynak.mermiHiz * ekstraGuc;
+        mermiHasari = mermiKaynak.mermiGuc * ekstraGuc;
 
-    public void MermiAta(float phiz, int phasarGucu, Sprite sprite, Vector2 baslamaVectoru, float zEkseni, LayerMask katman)
-    {
-        hiz = phiz;
-        hasarGucu = phasarGucu;
-        GetComponent<SpriteRenderer>().sprite = sprite;
-        transform.position = baslamaVectoru;
-        transform.rotation = Quaternion.Euler(0, 0, zEkseni);
-        gameObject.layer = katman;
+
+        //GENEL
+        transform.position = parent.transform.localPosition;
+        transform.rotation = Quaternion.Euler(0,0,parent.transform.localRotation.eulerAngles.z);
+        gameObject.layer = parent.layer;
+
+        //OPEN
+        guvenlik = false;
         gameObject.SetActive(true);
-
-        switch (tur)
-        {
-            case MermiTuru.normal:
-
-            break;
-        }
-        
+        body.velocity = transform.up * mermiHizi;
     }
     private void Awake()
     {
@@ -41,29 +35,10 @@ public class Mermi : MonoBehaviour
         body = GetComponent<Rigidbody2D>();
     }
 
-    private void OnEnable()
-    {
-        guvenlik = false;
-        body.velocity = transform.up * hiz;
-    }
-
-    private void Reset()
-    {
-        GetComponent<BoxCollider2D>();
-    }
-
     private void OnBecameInvisible()
     {
         ObjectPool.NesneDepola(gameObject);
     }
-
-    public virtual void TemaSonucu()
-    {
-        
-    }
-
-    private bool guvenlik;
-
     private void OnTriggerEnter2D(Collider2D other)
     {
 
@@ -79,14 +54,14 @@ public class Mermi : MonoBehaviour
             case 8:
                 if (other.gameObject.tag == "Player")
                 {
-                    other.gameObject.GetComponent<Player>().CanSistemi(hasarGucu);
+                    other.gameObject.GetComponent<Player>().CanSistemi((int)mermiHasari);
                 }
                 break;
 
             case 9:
                 if (other.gameObject.tag == "Enemy")
                 {
-                    other.gameObject.GetComponent<Enemy>().CanSistemi(hasarGucu);
+                    other.gameObject.GetComponent<Enemy>().CanSistemi((int)mermiHasari);
                 }
                 break;
         }

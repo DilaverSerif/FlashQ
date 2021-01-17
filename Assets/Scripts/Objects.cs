@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class Objects : MonoBehaviour
 {
-    public static GameObject Player;
+    public static GameObject Player,Menzil,Spawner,Boss;
+    
     // Start is called before the first frame update
     void Awake()
     {

@@ -6,21 +6,22 @@ public class ObjectPool : MonoBehaviour
 {
     private static ObjectPool1 mermiHavuzu;
     private static ObjectPool1 dusmanHavuzu;
-    private static Sprite[] mermiSprites;
-    private GameObject mermi,dusman;
+    private static CreateMermi[] mermiCesitleri;
+    private GameObject mermi, dusman;
 
     private void Awake()
     {
-        mermi = Resources.Load<GameObject>("Mermi/Mermi");
+        mermi = Resources.Load<GameObject>("Mermi");
         dusman = Resources.Load<GameObject>("Enemy");
         mermiHavuzu = new ObjectPool1(mermi);
-        
-        mermiSprites = Resources.LoadAll<Sprite>("Mermi/Sprites/Mermiler");
+
+        mermiCesitleri = Resources.LoadAll<CreateMermi>("Objects/Mermiler");
 
         dusmanHavuzu = new ObjectPool1(dusman);
     }
 
-    private void Start() {
+    private void Start()
+    {
         //mermiHavuzu.obje = mermi;
         mermiHavuzu.Depola(100);
         dusmanHavuzu.Depola(100);
@@ -29,7 +30,7 @@ public class ObjectPool : MonoBehaviour
     }
 
 
-    public static void DusmanSpawn(CreateEnemy pDusman,Vector2 pozisyon)
+    public static void DusmanSpawn(CreateEnemy pDusman, Vector2 pozisyon)
     {
         var dusman = dusmanHavuzu.ObjeKullan();
 
@@ -39,21 +40,36 @@ public class ObjectPool : MonoBehaviour
 
     }
 
-    
-    public static void MermiKullan(float phiz, int phasarGucu,Mermi.MermiTuru tur,Vector2 baslamaVectoru, float zEkseni, LayerMask katman)
+
+    public static void MermiKullan(CreateMermi.MermiTuru pMermi, GameObject parent,float ekstraGuc)
     {
-        Sprite bos = null;
+        CreateMermi sanalMermi;
         var mermi = mermiHavuzu.ObjeKullan();
 
-        switch (tur)
+        switch (pMermi)
         {
-            case Mermi.MermiTuru.normal:
-            bos = mermiSprites[0];
-            break;
-            
+            case CreateMermi.MermiTuru.akilli:
+                sanalMermi = mermiCesitleri[0];
+                break;
+            case CreateMermi.MermiTuru.icindenGecen:
+                sanalMermi = mermiCesitleri[0];
+                break;
+            case CreateMermi.MermiTuru.normal:
+                sanalMermi = mermiCesitleri[0];
+                break;
+            case CreateMermi.MermiTuru.kuvvetli:
+                sanalMermi = mermiCesitleri[0];
+                break;
+            default:
+                sanalMermi = mermiCesitleri[0];
+                break;
         }
 
-        mermi.GetComponent<Mermi>().MermiAta(phiz,phasarGucu,bos,baslamaVectoru,zEkseni,katman);
+        mermi.GetComponent<Mermi>().ekstraGuc = ekstraGuc;
+        mermi.GetComponent<Mermi>().parent = parent;
+        mermi.GetComponent<Mermi>().mermiKaynak = sanalMermi;
+        mermi.GetComponent<Mermi>().MermiAta();
+        mermi.SetActive(true);
     }
 
     public static void NesneDepola(GameObject gelenObje)
@@ -63,7 +79,7 @@ public class ObjectPool : MonoBehaviour
             dusmanHavuzu.ObjeDepola(gelenObje);
         }
         else mermiHavuzu.ObjeDepola(gelenObje);
-        
+
     }
 
 }
